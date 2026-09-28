@@ -18,9 +18,11 @@ int main()
     bn::fixed speed = 1.5;
 
     bn::fixed dy = 0;
-    bn::fixed gravity = .06; // originally .03
+    bn::fixed gravity = .03;
 
-    bn::fixed jump_strength = 2.0; // originally 1.3
+    bn::fixed jump_strength = 1.3;
+
+    bool is_jumping = false;
 
     while (true)
     {
@@ -32,9 +34,16 @@ int main()
         {
             dot.set_x(dot.x() + speed);
         }
-        if (bn::keypad::a_pressed())
+        if (bn::keypad::a_pressed() && !is_jumping)
         {
+            is_jumping = true;
             dy -= jump_strength;
+        }
+
+        // No jumping while jumping
+        if (dot.y() >= FLOOR)
+        {
+            is_jumping = false;
         }
 
         dy += gravity;
